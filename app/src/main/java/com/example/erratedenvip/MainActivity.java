@@ -5,8 +5,10 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> celebURLs = new ArrayList<String>();
     ArrayList<String> celebNames = new ArrayList<String>();
     int chosenCeleb = 0;
+    int locationOfCerrectAnwer = 0;
+    String[] anwers = new String[4];
 
     public class DownloadTask extends AsyncTask<String, Void, String> {
 
@@ -77,17 +81,50 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     public void newQuestion() {
         try {
             Random rand = new Random();
 
             chosenCeleb = rand.nextInt(celebURLs.size());
 
+            ImageDownloader imageTask = new ImageDownloader();
+            Bitmap celebImage = imageTask.execute(celebURLs.get(chosenCeleb)).get();
+            imageView.setImageBitmap(celebImage);
+
+            locationOfCerrectAnwer = rand.nextInt(4);
+
+            int incorrectAnswerLocation;
+
+            for (int i = 0; i < 4; i++) {
+                if (i == locationOfCerrectAnwer) {
+                    anwers[i] = celebNames.get(chosenCeleb);
+                } else {
+                    incorrectAnswerLocation = rand.nextInt(celebURLs.size());
+                    while (incorrectAnswerLocation == chosenCeleb) {
+                        incorrectAnswerLocation = rand.nextInt(celebURLs.size());
+                    }
+                    anwers[i] = celebNames.get(incorrectAnswerLocation);
+                }
+            }
+
+            button0.setText(anwers[0]);
+            button1.setText(anwers[1]);
+            button2.setText(anwers[2]);
+            button3.setText(anwers[3]);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void celebChosen(View view) {
+
+        if (view.getTag().toString().equals(Integer.toString(locationOfCerrectAnwer))) {
+            Toast.makeText(this, "Korrekt!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Falsch!", Toast.LENGTH_SHORT).show();
+        }
+        newQuestion();
     }
 
     @Override
@@ -124,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
                 celebNames.add(m.group(1));
                 Log.i("StarbuildName ", m.group(1));
             }
+
+            newQuestion();
 
         } catch (ExecutionException e) {
             e.printStackTrace();

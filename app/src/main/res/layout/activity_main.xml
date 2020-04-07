@@ -29,28 +29,32 @@
             android:id="@+id/button0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button"
-            android:tag="0" />
+            android:onClick="celebChosen"
+            android:tag="0"
+            android:text="Button" />
 
         <Button
             android:id="@+id/button1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button"
-            android:tag="1" />
+            android:onClick="celebChosen"
+            android:tag="1"
+            android:text="Button" />
 
         <Button
             android:id="@+id/button2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button"
-            android:tag="2" />
+            android:onClick="celebChosen"
+            android:tag="2"
+            android:text="Button" />
 
         <Button
             android:id="@+id/button3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button"
-            android:tag="3" />
+            android:onClick="celebChosen"
+            android:tag="3"
+            android:text="Button" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
